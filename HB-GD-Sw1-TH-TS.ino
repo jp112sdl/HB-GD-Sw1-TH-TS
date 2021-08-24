@@ -164,7 +164,7 @@ class WeatherChannel : public Channel<Hal, WeaList1, EmptyList, List4, PEERS_PER
       tick = delay();
       clock.add(*this);
       measure();
-      msg.init(msgcnt, temp, humidity, device().battery().low());
+      msg.init(msgcnt, temp, humidity);
       device().broadcastEvent(msg);
     }
 
