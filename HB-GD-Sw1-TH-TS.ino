@@ -31,9 +31,10 @@
   #define CC1101_CS           8 //PB0
   #define CC1101_GDO0         6 //PE6
 
-  #define RELAY_PIN         12 //PB4
-  #define TS_PIN1           13 //PB5
-  #define TS_PIN2           14 //PB6
+  #define BTN1_PIN           5 //PE5
+  #define TS_PIN1            3 //PB5
+  #define TS_PIN2            4 //PB6
+  #define RELAY_PIN         15 //PB7
 
 #endif
 
@@ -214,7 +215,8 @@ class UType : public ChannelDevice<Hal, VirtBaseChannel<Hal, GDList0>, 3, GDList
 
 UType sdev(devinfo, 0x20);
 
-ConfigToggleButton<UType> cfgBtn(sdev);
+ConfigButton<UType> cfgBtn(sdev);
+InternalButton<UType> btn1(sdev,1);
 
 void initPeerings (bool first) {
   if( first == true ) {
@@ -235,6 +237,7 @@ void setup () {
   sdev.tsChannel().init(TS_PIN1, TS_PIN2, posmap);
 
   buttonISR(cfgBtn,CONFIG_BUTTON_PIN);
+  buttonISR(btn1, BTN1_PIN)
   initPeerings(first);
   sdev.initDone();
 }
