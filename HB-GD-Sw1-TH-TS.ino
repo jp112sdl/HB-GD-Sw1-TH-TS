@@ -18,7 +18,7 @@
 #endif
 #include <SPI.h>
 #include <AskSinPP.h>
-#include "Sens_BME280.h"
+#include <sensors/Aht1x.h>
 
 #include <Register.h>
 #include <MultiChannelDevice.h>
@@ -136,7 +136,7 @@ class WeatherChannel : public Channel<Hal, WeaList1, EmptyList, List4, PEERS_PER
     int16_t         temp;
     uint8_t         humidity;
 
-    Sens_Bme280     bme280;
+    Aht1x<>         aht15;
     uint16_t        millis;
 
   public:
@@ -147,13 +147,13 @@ class WeatherChannel : public Channel<Hal, WeaList1, EmptyList, List4, PEERS_PER
     // here we do the measurement
     void measure () {
       DPRINT("Measure...");
-      bme280.measure(0);
+      aht15.measure();
 
       int32_t OFFSETtemp = this->getList1().TemperatureOffset();
       int32_t OFFSEThumi = this->getList1().HumidityOffset();
 
-      temp = bme280.temperature() + OFFSETtemp;
-      humidity = bme280.humidity() + OFFSEThumi;
+      temp = aht15.temperature() + OFFSETtemp;
+      humidity = aht15.humidity() + OFFSEThumi;
 
       DPRINTLN("T/H = " + String(temp) + "/" + String(humidity));
     }
@@ -173,7 +173,7 @@ class WeatherChannel : public Channel<Hal, WeaList1, EmptyList, List4, PEERS_PER
     }
     void setup(Device<Hal, GDList0>* dev, uint8_t number, uint16_t addr) {
       Channel::setup(dev, number, addr);
-      bme280.init();
+      aht15.init();
       sysclock.add(*this);
     }
 
