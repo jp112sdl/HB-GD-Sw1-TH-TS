@@ -32,8 +32,8 @@
   #define CC1101_GDO0         6 //PE6
 
   #define BTN1_PIN           5 //PE5
-  #define TS_PIN1            3 //PB5
-  #define TS_PIN2            4 //PB6
+  #define TS_PIN1            3 //PE3
+  #define TS_PIN2            4 //PE4
   #define RELAY_PIN         15 //PB7
 
 #endif
